@@ -109,7 +109,7 @@ def format_generated_text(text: str) -> str:
     paragraphs = text.split("\n\n")
     
     # Wrap each paragraph in <p> tags and join them
-    formatted_text = "".join([f"<p>{para.replace('\n', '<br>')}</p>" for para in paragraphs if para.strip()])
+    formatted_text = "<br>".join([f"<p>{para.strip()}</p>" for para in paragraphs if para.strip()])
     
     return formatted_text
 
