@@ -126,7 +126,7 @@ login_template = """
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+    <div class="bg-white p-16 rounded-lg shadow-lg w-full max-w-md">
         <h2 class="text-xl font-semibold mb-4">Login</h2>
         <form method="POST" action="/login" class="space-y-4">
             <div>
@@ -157,7 +157,7 @@ register_template = """
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+    <div class="bg-white p-16 rounded-lg shadow-lg w-full max-w-md">
         <h2 class="text-xl font-semibold mb-4">Register</h2>
         <form method="POST" action="/register" class="space-y-4">
             <div>
@@ -188,7 +188,7 @@ home_template = """
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl">
+    <div class="bg-white p-16 rounded-lg shadow-lg w-full max-w-2xl">
         <h1 class="text-2xl font-bold mb-4">Blog Post Generator</h1>
         {% if user %}
             <p class="mb-4">Welcome, {{ user.username }}! <a href="/logout" class="text-blue-500 hover:underline">Logout</a></p>
@@ -249,8 +249,8 @@ async def register(response: Response, username: str = Form(...), password: str 
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Username already registered"
             )
-        hashed_password = get_password_hash(password)
-        fake_users_db[username] = {"username": username, "hashed_password": hashed_password}
+        hashed_password = get_password_hash(password.strip())
+        fake_users_db[username] = {"username": username.strip(), "hashed_password": hashed_password}
         access_token = create_access_token(data={"sub": username})
         response = RedirectResponse(url="/", status_code=status.HTTP_302_FOUND)
     
